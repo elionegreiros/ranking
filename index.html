@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>APS Performance Ranking | Valença do Piauí 2026</title>
+    <title>Ranking de Qualidade APS | Valença do Piauí 2026</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
@@ -13,21 +13,21 @@
 </head>
 <body>
     <div class="app-container">
-        <!-- HEADER CORPORATIVO -->
-        <header class="corporate-header">
+        <!-- HEADER -->
+        <header class="ranking-header">
             <div class="header-left">
                 <div class="logo">
                     <div class="logo-icon">
-                        <i class="fas fa-chart-line"></i>
+                        <i class="fas fa-heartbeat"></i>
                     </div>
                     <div class="logo-text">
-                        <h1>APS Performance</h1>
-                        <span>Ranking Intelligence</span>
+                        <h1>Ranking de Qualidade APS</h1>
+                        <span>Indicadores de Cuidado | Valença do Piauí</span>
                     </div>
                 </div>
                 <div class="header-badge">
                     <i class="fas fa-calendar-alt"></i>
-                    <span>2º Quadrimestre 2026</span>
+                    <span id="periodoLabel">2º Quadrimestre 2026</span>
                 </div>
             </div>
             <div class="header-right">
@@ -47,17 +47,24 @@
                 </button>
                 <button id="exportRankingBtn" class="export-btn">
                     <i class="fas fa-download"></i>
-                    <span>Exportar</span>
+                    <span>Exportar CSV</span>
                 </button>
             </div>
         </header>
 
-        <!-- KPI CARDS PREMIUM -->
+        <!-- KPI CARDS - Indicadores Principais -->
         <section class="kpi-section">
+            <div class="section-header">
+                <div class="section-title">
+                    <i class="fas fa-chart-line"></i>
+                    <h2>Desempenho Municipal</h2>
+                </div>
+                <div class="section-line"></div>
+            </div>
             <div class="kpi-grid" id="kpiGrid"></div>
         </section>
 
-        <!-- PODIUM PREMIUM -->
+        <!-- PODIUM - Top 3 por Média Geral -->
         <section class="podium-section">
             <div class="section-header">
                 <div class="section-title">
@@ -69,26 +76,25 @@
             <div class="podium-container" id="podiumContainer"></div>
         </section>
 
-        <!-- RANKING TABLE PREMIUM -->
+        <!-- RANKING COMPLETO POR INDICADOR -->
         <section class="ranking-section">
             <div class="ranking-header-toolbar">
                 <div class="section-title">
                     <i class="fas fa-ranking-star"></i>
-                    <h2>Classificação Geral</h2>
+                    <h2>Ranking por Indicador</h2>
                 </div>
                 <div class="toolbar-actions">
                     <div class="filter-group">
                         <i class="fas fa-sort-amount-down"></i>
                         <select id="ordenarPor" class="ranking-select">
-                            <option value="scoreFinal">Score Final (Vínculo)</option>
-                            <option value="mediaQualidade">Média Qualidade (C1-C7)</option>
-                            <option value="c1">C1 - Mais Acesso</option>
-                            <option value="c2">C2 - Desenvolvimento Infantil</option>
-                            <option value="c3">C3 - Gestante/Puérpera</option>
-                            <option value="c4">C4 - Diabetes</option>
-                            <option value="c5">C5 - Hipertensão</option>
-                            <option value="c6">C6 - Pessoa Idosa</option>
-                            <option value="c7">C7 - Mulheres</option>
+                            <option value="mediaGeral">📊 Média Geral (C1 a C7)</option>
+                            <option value="c1">🏥 C1 - Mais Acesso</option>
+                            <option value="c2">👶 C2 - Desenvolvimento Infantil</option>
+                            <option value="c3">🤰 C3 - Gestante/Puérpera</option>
+                            <option value="c4">💉 C4 - Diabetes</option>
+                            <option value="c5">❤️ C5 - Hipertensão</option>
+                            <option value="c6">👴 C6 - Pessoa Idosa</option>
+                            <option value="c7">👩 C7 - Mulheres</option>
                         </select>
                     </div>
                     <button id="btnAtualizarRanking" class="refresh-btn">
@@ -103,8 +109,7 @@
                         <tr>
                             <th>#</th>
                             <th>Equipe</th>
-                            <th>Score<br>Final</th>
-                            <th>Média<br>Qualidade</th>
+                            <th>Média<br>Geral</th>
                             <th>C1<br>Acesso</th>
                             <th>C2<br>Infantil</th>
                             <th>C3<br>Gestante</th>
@@ -112,7 +117,8 @@
                             <th>C5<br>Hipertensão</th>
                             <th>C6<br>Idoso</th>
                             <th>C7<br>Mulher</th>
-                            <th>Status</th>
+                            <th>Melhor<br>Indicador</th>
+                            <th>Pior<br>Indicador</th>
                         </tr>
                     </thead>
                     <tbody id="rankingBody"></tbody>
@@ -120,46 +126,41 @@
             </div>
         </section>
 
-        <!-- INSIGHTS SECTION -->
-        <section class="insights-section">
+        <!-- COMPARATIVO DE INDICADORES -->
+        <section class="charts-section">
             <div class="section-header">
                 <div class="section-title">
                     <i class="fas fa-chart-pie"></i>
-                    <h2>Insights Estratégicos</h2>
+                    <h2>Análise de Indicadores</h2>
                 </div>
                 <div class="section-line"></div>
             </div>
-            <div class="insights-grid" id="insightsGrid"></div>
-        </section>
-
-        <!-- PERFORMANCE CHARTS -->
-        <section class="charts-section">
             <div class="charts-grid">
                 <div class="chart-card">
                     <div class="chart-header">
-                        <h3><i class="fas fa-chart-bar"></i> Distribuição por Classificação</h3>
+                        <h3><i class="fas fa-medal"></i> Melhor Desempenho por Indicador</h3>
                     </div>
-                    <canvas id="distribuicaoChart"></canvas>
+                    <canvas id="melhoresIndicadoresChart"></canvas>
                 </div>
                 <div class="chart-card">
                     <div class="chart-header">
-                        <h3><i class="fas fa-chart-line"></i> Top 5 - Desenvolvimento Infantil (C2)</h3>
+                        <h3><i class="fas fa-chart-bar"></i> Top 5 - Média Geral</h3>
                     </div>
-                    <canvas id="top5Chart"></canvas>
+                    <canvas id="top5MediaChart"></canvas>
                 </div>
             </div>
         </section>
 
         <!-- FOOTER -->
-        <footer class="corporate-footer">
+        <footer class="ranking-footer">
             <div class="footer-content">
                 <div class="footer-info">
                     <i class="fas fa-database"></i>
-                    <span>Dados oficiais do Programa Novo Financiamento APS</span>
+                    <span>Indicadores C1 a C7 do Programa Novo Financiamento APS</span>
                 </div>
                 <div class="footer-info">
                     <i class="fas fa-chart-simple"></i>
-                    <span>Metodologia: Vínculo (Score Final) | Qualidade (C1-C7)</span>
+                    <span>Metodologia: C1 (especial) | C2 a C7 (escala geral)</span>
                 </div>
             </div>
         </footer>

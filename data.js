@@ -1,5 +1,5 @@
 // ============================================================================
-// DADOS OFICIAIS - RANKING APS VALENÇA DO PIAUÍ
+// RANKING DE QUALIDADE APS - SOMENTE INDICADORES C1 a C7
 // ============================================================================
 
 const equipesAPS = [
@@ -15,20 +15,7 @@ const equipesAPS = [
     "SEGUNDA EQUIPE SAUDE D FAMILIA"
 ];
 
-// 2º Quadrimestre 2026
-const vinculoData2Q = {
-    "PS VALE VERDE - PSF": { scoreFinal: 10.00, classificacao: "ÓTIMO" },
-    "PS MORADA NOVA - PSF": { scoreFinal: 10.00, classificacao: "ÓTIMO" },
-    "PS NOVO HORIZONTE - PSF": { scoreFinal: 8.25, classificacao: "BOM" },
-    "PS AMANO LIMA PSF": { scoreFinal: 8.25, classificacao: "BOM" },
-    "PS IEDA - PSF": { scoreFinal: 10.00, classificacao: "ÓTIMO" },
-    "PS ISIDORIA - PSF": { scoreFinal: 8.25, classificacao: "BOM" },
-    "PS SANTA ROSA - PSF": { scoreFinal: 8.25, classificacao: "BOM" },
-    "PS CENTRO": { scoreFinal: 10.00, classificacao: "ÓTIMO" },
-    "PS LAVANDERIA PSF": { scoreFinal: 10.00, classificacao: "ÓTIMO" },
-    "SEGUNDA EQUIPE SAUDE D FAMILIA": { scoreFinal: 8.25, classificacao: "BOM" }
-};
-
+// 2º Quadrimestre 2026 - SOMENTE C1 a C7
 const qualidadeData2Q = {
     "PS VALE VERDE - PSF": { c1: 70.03, c2: 80.00, c3: 69.38, c4: 89.59, c5: 86.26, c6: 79.13, c7: 84.99 },
     "PS MORADA NOVA - PSF": { c1: 38.87, c2: 42.22, c3: 70.33, c4: 69.83, c5: 69.44, c6: 81.27, c7: 71.11 },
@@ -42,20 +29,7 @@ const qualidadeData2Q = {
     "SEGUNDA EQUIPE SAUDE D FAMILIA": { c1: 36.80, c2: 48.89, c3: 73.00, c4: 81.47, c5: 81.03, c6: 83.90, c7: 77.04 }
 };
 
-// 1º Quadrimestre 2026
-const vinculoData1Q = {
-    "PS VALE VERDE - PSF": { scoreFinal: 10.00, classificacao: "ÓTIMO" },
-    "PS MORADA NOVA - PSF": { scoreFinal: 10.00, classificacao: "ÓTIMO" },
-    "PS NOVO HORIZONTE - PSF": { scoreFinal: 8.25, classificacao: "BOM" },
-    "PS AMANO LIMA PSF": { scoreFinal: 8.25, classificacao: "BOM" },
-    "PS IEDA - PSF": { scoreFinal: 10.00, classificacao: "ÓTIMO" },
-    "PS ISIDORIA - PSF": { scoreFinal: 8.25, classificacao: "BOM" },
-    "PS SANTA ROSA - PSF": { scoreFinal: 8.25, classificacao: "BOM" },
-    "PS CENTRO": { scoreFinal: 10.00, classificacao: "ÓTIMO" },
-    "PS LAVANDERIA PSF": { scoreFinal: 10.00, classificacao: "ÓTIMO" },
-    "SEGUNDA EQUIPE SAUDE D FAMILIA": { scoreFinal: 8.25, classificacao: "BOM" }
-};
-
+// 1º Quadrimestre 2026 - SOMENTE C1 a C7
 const qualidadeData1Q = {
     "PS VALE VERDE - PSF": { c1: 65.65, c2: 56.67, c3: 86.33, c4: 92.87, c5: 93.35, c6: 81.64, c7: 83.97 },
     "PS MORADA NOVA - PSF": { c1: 41.35, c2: 52.00, c3: 72.08, c4: 76.23, c5: 77.35, c6: 84.58, c7: 77.43 },
@@ -69,16 +43,23 @@ const qualidadeData1Q = {
     "SEGUNDA EQUIPE SAUDE D FAMILIA": { c1: 54.19, c2: 50.00, c3: 80.57, c4: 85.30, c5: 87.88, c6: 86.15, c7: 79.71 }
 };
 
-// Funções auxiliares
-function calcularMediaQualidade(q) {
-    return (q.c1 + q.c2 + q.c3 + q.c4 + q.c5 + q.c6 + q.c7) / 7;
+// Funções de classificação
+function classificarC1(pct) {
+    if (pct > 50 && pct <= 70) return "ÓTIMO";
+    if (pct > 30 && pct <= 50) return "BOM";
+    if (pct > 10 && pct <= 30) return "SUFICIENTE";
+    return "REGULAR";
 }
 
-function classificarVinculo(score) {
-    if (score > 8.5) return "ÓTIMO";
-    if (score >= 7.0 && score <= 8.5) return "BOM";
-    if (score >= 5.0 && score <= 6.9) return "SUFICIENTE";
+function classificarGeral(pct) {
+    if (pct > 75) return "ÓTIMO";
+    if (pct > 50) return "BOM";
+    if (pct > 25) return "SUFICIENTE";
     return "REGULAR";
+}
+
+function calcularMediaGeral(q) {
+    return (q.c1 + q.c2 + q.c3 + q.c4 + q.c5 + q.c6 + q.c7) / 7;
 }
 
 function badgeClass(status) {
