@@ -1,5 +1,5 @@
 // ============================================================================
-// DADOS OFICIAIS - VALENÇA DO PIAUÍ
+// DADOS OFICIAIS - RANKING APS VALENÇA DO PIAUÍ
 // ============================================================================
 
 const equipesAPS = [
@@ -42,7 +42,7 @@ const qualidadeData2Q = {
     "SEGUNDA EQUIPE SAUDE D FAMILIA": { c1: 36.80, c2: 48.89, c3: 73.00, c4: 81.47, c5: 81.03, c6: 83.90, c7: 77.04 }
 };
 
-// 1º Quadrimestre 2026 (para comparativo)
+// 1º Quadrimestre 2026
 const vinculoData1Q = {
     "PS VALE VERDE - PSF": { scoreFinal: 10.00, classificacao: "ÓTIMO" },
     "PS MORADA NOVA - PSF": { scoreFinal: 10.00, classificacao: "ÓTIMO" },
@@ -86,4 +86,11 @@ function badgeClass(status) {
     if (status === "BOM") return "badge-bom";
     if (status === "SUFICIENTE") return "badge-suficiente";
     return "badge-regular";
+}
+
+function getCorClassificacao(classificacao) {
+    if (classificacao === "ÓTIMO") return "#2ecc71";
+    if (classificacao === "BOM") return "#3498db";
+    if (classificacao === "SUFICIENTE") return "#f39c12";
+    return "#e74c3c";
 }
