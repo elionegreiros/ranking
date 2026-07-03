@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>APS · Inhuma - PI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+
+        body {
+            background: #f4f7fc;
+            padding: 24px;
+            color: #1e293b;
+        }
+
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* cabeçalho */
+        .header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 20px 28px;
+            border-radius: 28px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.02), 0 2px 6px rgba(0,20,50,0.04);
+            margin-bottom: 28px;
+        }
+
+        .header-left h1 {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            color: #0b2b4a;
+        }
+
+        .header-left h1 i {
+            color: #2a7de1;
+            margin-right: 10px;
+        }
+
+        .header-left .sub {
+            font-size: 14px;
+            color: #64748b;
+            margin-top: 4px;
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .header-right {
+            background: #eef4ff;
+            padding: 10px 18px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 15px;
+            color: #1a4c7a;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .header-right i {
+            color: #2a7de1;
+        }
+
+        /* ALERTAS em destaque */
+        .alertas-destaque {
+            background: #fef3e9;
+            border: 2px solid #f5b342;
+            border-radius: 28px;
+            padding: 18px 28px;
+            margin-bottom: 28px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 6px 14px rgba(245, 179, 66, 0.12);
+        }
+
+        .alertas-destaque .alert-icon {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 18px;
+            color: #7a4d0e;
+        }
+
+        .alertas-destaque .alert-icon i {
+            font-size: 28px;
+            color: #d97706;
+        }
+
+        .alertas-destaque .alert-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 24px;
+            font-size: 15px;
+            font-weight: 500;
+            color: #4b2e0a;
+        }
+
+        .alertas-destaque .alert-list span {
+            background: white;
+            padding: 4px 16px;
+            border-radius: 60px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.02);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .alertas-destaque .alert-list i {
+            color: #b45309;
+        }
+
+        .alertas-destaque .alert-badge {
+            background: #d97706;
+            color: white;
+            padding: 6px 18px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* seção de equipes */
+        .categoria-section {
+            background: white;
+            border-radius: 28px;
+            padding: 24px 28px 28px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.02);
+            border: 1px solid #eef2f7;
+            margin-bottom: 28px;
+        }
+
+        .categoria-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #eef2f7;
+        }
+
+        .categoria-header .categoria-titulo {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1e3a5f;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .categoria-header .categoria-titulo i {
+            color: #2a7de1;
+        }
+
+        .categoria-header .categoria-sub {
+            font-size: 14px;
+            color: #64748b;
+            font-weight: 500;
+            margin-left: 8px;
+        }
+
+        /* tabela de indicadores em linha */
+        .indicadores-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .indicadores-table thead th {
+            text-align: left;
+            font-weight: 600;
+            color: #475569;
+            padding: 8px 12px 10px 12px;
+            border-bottom: 2px solid #e2e8f0;
+            background: #f8fafc;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .indicadores-table tbody td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #f1f5f9;
+            vertical-align: middle;
+        }
+
+        .indicadores-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .indicadores-table tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .indicadores-table .equipe-nome {
+            font-weight: 700;
+            color: #0b2b4a;
+            white-space: nowrap;
+        }
+
+        .indicadores-table .nota-cell {
+            font-weight: 700;
+            color: #0b2b4a;
+            background: #f1f6fd;
+            padding: 2px 14px;
+            border-radius: 60px;
+            display: inline-block;
+            font-size: 14px;
+        }
+
+        /* cores oficiais MS */
+        .status-otimo {
+            color: #005ea5;
+            background: #d4e6f7;
+            padding: 2px 14px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 12px;
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        .status-bom {
+            color: #006837;
+            background: #d4edda;
+            padding: 2px 14px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 12px;
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        .status-suficiente {
+            color: #b76e0a;
+            background: #fde8d0;
+            padding: 2px 14px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 12px;
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        .status-regular {
+            color: #c8102e;
+            background: #f8d7da;
+            padding: 2px 14px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 12px;
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        .legenda-cores {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #eef2f7;
+            justify-content: center;
+        }
+
+        .legenda-cores span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .legenda-cores .dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .dot-otimo { background: #005ea5; }
+        .dot-bom { background: #006837; }
+        .dot-suficiente { background: #b76e0a; }
+        .dot-regular { background: #c8102e; }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: start;
+                gap: 12px;
+            }
+            .alertas-destaque {
+                flex-direction: column;
+                align-items: start;
+                gap: 12px;
+            }
+            .indicadores-table {
+                font-size: 12px;
+            }
+            .indicadores-table thead th,
+            .indicadores-table tbody td {
+                padding: 6px 8px;
+            }
+            .categoria-section {
+                padding: 16px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .indicadores-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard">
+
+    <!-- cabeçalho -->
+    <div class="header">
+        <div class="header-left">
+            <h1><i class="fas fa-heartbeat"></i> APS · Inhuma - PI</h1>
+            <div class="sub">
+                <span><i class="far fa-calendar-alt"></i> 2º Quadrimestre 2026</span>
+                <span><i class="fas fa-flag"></i> Relatório Novo Financiamento</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <i class="fas fa-chart-line"></i> 7 equipes com nota máxima
+        </div>
+    </div>
+
+    <!-- ⚠️ ALERTAS EM DESTAQUE -->
+    <div class="alertas-destaque">
+        <div class="alert-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span>Alertas prioritários</span>
+            <span class="alert-badge">6 itens</span>
+        </div>
+        <div class="alert-list">
+            <span><i class="fas fa-child"></i> Desenv. Infantil: 3 equipes <span class="status-suficiente" style="font-size:12px;">SUFICIENTE</span></span>
+            <span><i class="fas fa-tooth"></i> ESB João Antônio: 6 indicadores <span class="status-regular" style="font-size:12px;">REGULAR</span></span>
+            <span><i class="fas fa-tooth"></i> ESB Baixas: trat. concluído e exodontia <span class="status-regular" style="font-size:12px;">REGULAR</span></span>
+            <span><i class="fas fa-tooth"></i> ESB Forte e Buriti: escovação <span class="status-regular" style="font-size:12px;">REGULAR</span></span>
+            <span><i class="fas fa-tooth"></i> ESB Araxas: exodontia <span class="status-regular" style="font-size:12px;">REGULAR</span></span>
+            <span><i class="fas fa-tooth"></i> ESB Sossego: escovação <span class="status-regular" style="font-size:12px;">REGULAR</span></span>
+        </div>
+    </div>
+
+    <!-- ==================== eSF ==================== -->
+    <div class="categoria-section">
+        <div class="categoria-header">
+            <div class="categoria-titulo">
+                <i class="fas fa-user-md"></i> eSF
+                <span class="categoria-sub">Equipes Saúde da Família</span>
+            </div>
+        </div>
+        <div style="overflow-x:auto;">
+            <table class="indicadores-table" id="esfTable">
+                <thead>
+                    <tr>
+                        <th>Equipe</th>
+                        <th>Cad.</th>
+                        <th>Acomp.</th>
+                        <th>Nota Final</th>
+                        <th>Mais Acesso</th>
+                        <th>Desenv. Infantil</th>
+                        <th>Gestante</th>
+                        <th>Diabetes</th>
+                        <th>Hipertensão</th>
+                        <th>Idoso</th>
+                        <th>Mulheres</th>
+                    </tr>
+                </thead>
+                <tbody id="esfBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ==================== eSB ==================== -->
+    <div class="categoria-section">
+        <div class="categoria-header">
+            <div class="categoria-titulo">
+                <i class="fas fa-tooth"></i> eSB
+                <span class="categoria-sub">Equipes Saúde Bucal</span>
+            </div>
+        </div>
+        <div style="overflow-x:auto;">
+            <table class="indicadores-table" id="esbTable">
+                <thead>
+                    <tr>
+                        <th>Equipe</th>
+                        <th>1ª Consulta</th>
+                        <th>Trat. Concluído</th>
+                        <th>Taxa Exodontia</th>
+                        <th>Escov. Supervisionada</th>
+                        <th>Proc. Preventivos</th>
+                        <th>Trat. Atraumático</th>
+                    </tr>
+                </thead>
+                <tbody id="esbBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ==================== eMulti ==================== -->
+    <div class="categoria-section">
+        <div class="categoria-header">
+            <div class="categoria-titulo">
+                <i class="fas fa-hand-holding-heart"></i> eMulti
+                <span class="categoria-sub">Equipe Multiprofissional</span>
+            </div>
+        </div>
+        <div style="overflow-x:auto;">
+            <table class="indicadores-table" id="emultiTable">
+                <thead>
+                    <tr>
+                        <th>Equipe</th>
+                        <th>Média Atend./Cidadão</th>
+                        <th>Ações Interprofissionais</th>
+                    </tr>
+                </thead>
+                <tbody id="emultiBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- legenda -->
+    <div style="background: white; border-radius: 28px; padding: 16px 24px; border: 1px solid #eef2f7;">
+        <div class="legenda-cores">
+            <span><span class="dot dot-otimo"></span> ÓTIMO</span>
+            <span><span class="dot dot-bom"></span> BOM</span>
+            <span><span class="dot dot-suficiente"></span> SUFICIENTE</span>
+            <span><span class="dot dot-regular"></span> REGULAR</span>
+            <span style="margin-left: 16px; color: #64748b;"><i class="far fa-clock"></i> Dados do 2º quadrimestre 2026</span>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    (function() {
+        // Mapeamento de classificações para cores
+        const classMap = {
+            'ÓTIMO': 'status-otimo',
+            'BOM': 'status-bom',
+            'SUFICIENTE': 'status-suficiente',
+            'REGULAR': 'status-regular'
+        };
+
+        function renderStatus(value) {
+            const cls = classMap[value] || 'status-suficiente';
+            return `<span class="${cls}">${value}</span>`;
+        }
+
+        // ========== eSF ==========
+        const esfData = [
+            { nome: 'JAS', cad: '3,00', acomp: '7,00', nota: '10,00', maisAcesso: 'ÓTIMO', desenv: 'BOM', gestante: 'ÓTIMO', diabetes: 'ÓTIMO', hipertensao: 'ÓTIMO', idoso: 'ÓTIMO', mulheres: 'BOM' },
+            { nome: 'Forte', cad: '3,00', acomp: '7,00', nota: '10,00', maisAcesso: 'BOM', desenv: 'BOM', gestante: 'BOM', diabetes: 'BOM', hipertensao: 'ÓTIMO', idoso: 'ÓTIMO', mulheres: 'BOM' },
+            { nome: 'Buriti Comprido', cad: '3,00', acomp: '7,00', nota: '10,00', maisAcesso: 'BOM', desenv: 'BOM', gestante: 'ÓTIMO', diabetes: 'ÓTIMO', hipertensao: 'ÓTIMO', idoso: 'ÓTIMO', mulheres: 'ÓTIMO' },
+            { nome: 'Baixas', cad: '3,00', acomp: '5,25', nota: '8,25', maisAcesso: 'ÓTIMO', desenv: 'BOM', gestante: 'ÓTIMO', diabetes: 'ÓTIMO', hipertensao: 'ÓTIMO', idoso: 'ÓTIMO', mulheres: 'ÓTIMO' },
+            { nome: 'Roque', cad: '3,00', acomp: '7,00', nota: '10,00', maisAcesso: 'ÓTIMO', desenv: 'BOM', gestante: 'ÓTIMO', diabetes: 'BOM', hipertensao: 'ÓTIMO', idoso: 'BOM', mulheres: 'BOM' },
+            { nome: 'Sossego', cad: '3,00', acomp: '7,00', nota: '10,00', maisAcesso: 'ÓTIMO', desenv: 'SUFICIENTE', gestante: 'ÓTIMO', diabetes: 'ÓTIMO', hipertensao: 'ÓTIMO', idoso: 'ÓTIMO', mulheres: 'ÓTIMO' },
+            { nome: 'Central', cad: '3,00', acomp: '7,00', nota: '10,00', maisAcesso: 'ÓTIMO', desenv: 'SUFICIENTE', gestante: 'ÓTIMO', diabetes: 'BOM', hipertensao: 'BOM', idoso: 'ÓTIMO', mulheres: 'BOM' },
+            { nome: 'Araxas', cad: '3,00', acomp: '7,00', nota: '10,00', maisAcesso: 'BOM', desenv: 'SUFICIENTE', gestante: 'BOM', diabetes: 'ÓTIMO', hipertensao: 'BOM', idoso: 'BOM', mulheres: 'BOM' }
+        ];
+
+        const esfBody = document.getElementById('esfBody');
+        esfData.forEach(eq => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td class="equipe-nome">${eq.nome}</td>
+                <td>${eq.cad}</td>
+                <td>${eq.acomp}</td>
+                <td><span class="nota-cell">${eq.nota}</span></td>
+                <td>${renderStatus(eq.maisAcesso)}</td>
+                <td>${renderStatus(eq.desenv)}</td>
+                <td>${renderStatus(eq.gestante)}</td>
+                <td>${renderStatus(eq.diabetes)}</td>
+                <td>${renderStatus(eq.hipertensao)}</td>
+                <td>${renderStatus(eq.idoso)}</td>
+                <td>${renderStatus(eq.mulheres)}</td>
+            `;
+            esfBody.appendChild(tr);
+        });
+
+        // ========== eSB ==========
+        const esbData = [
+            { nome: 'ESB João Antônio', consulta: '0,00%', trat: '0,00%', exodontia: '0,00%', escovacao: '0,00%', preventivos: '0,00%', atraumático: '0,00%' },
+            { nome: 'ESB Sossego', consulta: '3,31%', trat: '36,73%', exodontia: '3,72%', escovacao: '0,00%', preventivos: '48,85%', atraumático: '29,31%' },
+            { nome: 'ESB Baixas', consulta: '1,47%', trat: '21,05%', exodontia: '18,78%', escovacao: '15,45%', preventivos: '57,88%', atraumático: '14,52%' },
+            { nome: 'ESB Roque', consulta: '2,22%', trat: '40,00%', exodontia: '4,52%', escovacao: '7,94%', preventivos: '63,54%', atraumático: '7,58%' },
+            { nome: 'ESB Forte', consulta: '2,55%', trat: '29,55%', exodontia: '4,61%', escovacao: '0,00%', preventivos: '56,06%', atraumático: '22,76%' },
+            { nome: 'ESB Buriti Comprido', consulta: '3,05%', trat: '80,39%', exodontia: '4,52%', escovacao: '0,00%', preventivos: '53,70%', atraumático: '13,86%' },
+            { nome: 'ESB José Lino Leal', consulta: '1,06%', trat: '40,00%', exodontia: '13,75%', escovacao: '6,51%', preventivos: '51,38%', atraumático: '4,69%' },
+            { nome: 'ESB Araxas', consulta: '2,74%', trat: '73,91%', exodontia: '2,47%', escovacao: '7,79%', preventivos: '71,32%', atraumático: '21,35%' }
+        ];
+
+        // Classificações eSB
+        const esbClass = {
+            'ESB João Antônio': { consulta: 'REGULAR', trat: 'REGULAR', exodontia: 'REGULAR', escovacao: 'REGULAR', preventivos: 'REGULAR', atraumático: 'REGULAR' },
+            'ESB Sossego': { consulta: 'ÓTIMO', trat: 'SUFICIENTE', exodontia: 'ÓTIMO', escovacao: 'REGULAR', preventivos: 'SUFICIENTE', atraumático: 'ÓTIMO' },
+            'ESB Baixas': { consulta: 'ÓTIMO', trat: 'REGULAR', exodontia: 'REGULAR', escovacao: 'ÓTIMO', preventivos: 'BOM', atraumático: 'ÓTIMO' },
+            'ESB Roque': { consulta: 'ÓTIMO', trat: 'SUFICIENTE', exodontia: 'ÓTIMO', escovacao: 'ÓTIMO', preventivos: 'BOM', atraumático: 'BOM' },
+            'ESB Forte': { consulta: 'ÓTIMO', trat: 'SUFICIENTE', exodontia: 'ÓTIMO', escovacao: 'REGULAR', preventivos: 'BOM', atraumático: 'ÓTIMO' },
+            'ESB Buriti Comprido': { consulta: 'ÓTIMO', trat: 'ÓTIMO', exodontia: 'ÓTIMO', escovacao: 'REGULAR', preventivos: 'SUFICIENTE', atraumático: 'ÓTIMO' },
+            'ESB José Lino Leal': { consulta: 'BOM', trat: 'SUFICIENTE', exodontia: 'SUFICIENTE', escovacao: 'ÓTIMO', preventivos: 'SUFICIENTE', atraumático: 'SUFICIENTE' },
+            'ESB Araxas': { consulta: 'ÓTIMO', trat: 'BOM', exodontia: 'REGULAR', escovacao: 'ÓTIMO', preventivos: 'ÓTIMO', atraumático: 'ÓTIMO' }
+        };
+
+        const esbBody = document.getElementById('esbBody');
+        esbData.forEach(eq => {
+            const cls = esbClass[eq.nome] || {};
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td class="equipe-nome">${eq.nome}</td>
+                <td>${eq.consulta} ${renderStatus(cls.consulta || '')}</td>
+                <td>${eq.trat} ${renderStatus(cls.trat || '')}</td>
+                <td>${eq.exodontia} ${renderStatus(cls.exodontia || '')}</td>
+                <td>${eq.escovacao} ${renderStatus(cls.escovacao || '')}</td>
+                <td>${eq.preventivos} ${renderStatus(cls.preventivos || '')}</td>
+                <td>${eq.atraumático} ${renderStatus(cls.atraumático || '')}</td>
+            `;
+            esbBody.appendChild(tr);
+        });
+
+        // ========== eMulti ==========
+        const emultiData = [
+            { nome: 'eMulti Inhuma', media: '2,36', mediaClass: 'BOM', acoes: '9,49%', acoesClass: 'ÓTIMO' }
+        ];
+
+        const emultiBody = document.getElementById('emultiBody');
+        emultiData.forEach(eq => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td class="equipe-nome">${eq.nome}</td>
+                <td>${eq.media} ${renderStatus(eq.mediaClass)}</td>
+                <td>${eq.acoes} ${renderStatus(eq.acoesClass)}</td>
+            `;
+            emultiBody.appendChild(tr);
+        });
+
+    })();
+</script>
+</body>
+</html>
