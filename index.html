@@ -75,6 +75,87 @@
             color: #2a7de1;
         }
 
+        /* RANKING */
+        .ranking-section {
+            background: white;
+            border-radius: 28px;
+            padding: 20px 28px 24px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.02);
+            border: 1px solid #eef2f7;
+            margin-bottom: 24px;
+        }
+
+        .ranking-section .ranking-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e3a5f;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ranking-section .ranking-title i {
+            color: #f5b342;
+        }
+
+        .ranking-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+        }
+
+        .rank-card {
+            background: #f8fafc;
+            border-radius: 20px;
+            padding: 14px 18px;
+            border: 1px solid #e9edf3;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.1s ease;
+        }
+
+        .rank-card:hover {
+            background: #f1f6fd;
+        }
+
+        .rank-card .rank-pos {
+            font-size: 20px;
+            font-weight: 700;
+            margin-right: 12px;
+            min-width: 32px;
+        }
+
+        .rank-card .rank-info {
+            flex: 1;
+        }
+
+        .rank-card .rank-name {
+            font-weight: 700;
+            color: #0b2b4a;
+            font-size: 15px;
+        }
+
+        .rank-card .rank-equipe {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .rank-card .rank-score {
+            font-weight: 700;
+            font-size: 18px;
+            color: #0b2b4a;
+            background: #e9edf3;
+            padding: 2px 14px;
+            border-radius: 60px;
+        }
+
+        .rank-card.ouro { border-left: 5px solid #f5b342; background: #fef9f0; }
+        .rank-card.prata { border-left: 5px solid #b0c4de; background: #f8faff; }
+        .rank-card.bronze { border-left: 5px solid #cd7f32; background: #fdf8f2; }
+        .rank-card.destaque { border-left: 5px solid #2a7de1; background: #f2f8ff; }
+
         /* ALERTAS em destaque */
         .alertas-destaque {
             background: #fef3e9;
@@ -319,6 +400,9 @@
             .categoria-section {
                 padding: 16px;
             }
+            .ranking-grid {
+                grid-template-columns: 1fr 1fr;
+            }
         }
 
         @media (max-width: 600px) {
@@ -326,6 +410,9 @@
                 display: block;
                 overflow-x: auto;
                 white-space: nowrap;
+            }
+            .ranking-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -344,6 +431,17 @@
         </div>
         <div class="header-right">
             <i class="fas fa-chart-line"></i> 7 equipes com nota máxima
+        </div>
+    </div>
+
+    <!-- ===== RANKING ===== -->
+    <div class="ranking-section">
+        <div class="ranking-title">
+            <i class="fas fa-trophy"></i> Ranking das equipes
+            <span style="font-size:14px; font-weight:400; color:#64748b; margin-left:8px;">Nota final - Vínculo e Acompanhamento</span>
+        </div>
+        <div class="ranking-grid" id="rankingContainer">
+            <!-- renderizado via JS -->
         </div>
     </div>
 
@@ -469,6 +567,51 @@
             const cls = classMap[value] || 'status-suficiente';
             return `<span class="${cls}">${value}</span>`;
         }
+
+        // ========== Dados para o Ranking ==========
+        const rankingData = [
+            { nome: 'JAS', nota: 10.00, tipo: 'eSF' },
+            { nome: 'Forte', nota: 10.00, tipo: 'eSF' },
+            { nome: 'Buriti Comprido', nota: 10.00, tipo: 'eSF' },
+            { nome: 'Roque', nota: 10.00, tipo: 'eSF' },
+            { nome: 'Sossego', nota: 10.00, tipo: 'eSF' },
+            { nome: 'Central', nota: 10.00, tipo: 'eSF' },
+            { nome: 'Araxas', nota: 10.00, tipo: 'eSF' },
+            { nome: 'Baixas', nota: 8.25, tipo: 'eSF' }
+        ];
+
+        // Ordenar por nota (decrescente)
+        const sortedRank = [...rankingData].sort((a, b) => b.nota - a.nota);
+
+        const rankContainer = document.getElementById('rankingContainer');
+        function renderRanking() {
+            rankContainer.innerHTML = '';
+            sortedRank.forEach((eq, idx) => {
+                const card = document.createElement('div');
+                card.className = 'rank-card';
+                if (idx === 0) card.classList.add('ouro');
+                else if (idx === 1) card.classList.add('prata');
+                else if (idx === 2) card.classList.add('bronze');
+                else if (eq.nota >= 9.0) card.classList.add('destaque');
+
+                let pos = '';
+                if (idx === 0) pos = '🥇';
+                else if (idx === 1) pos = '🥈';
+                else if (idx === 2) pos = '🥉';
+                else pos = `${idx+1}º`;
+
+                card.innerHTML = `
+                    <span class="rank-pos">${pos}</span>
+                    <div class="rank-info">
+                        <div class="rank-name">${eq.nome}</div>
+                        <div class="rank-equipe">${eq.tipo}</div>
+                    </div>
+                    <span class="rank-score">${eq.nota.toFixed(2)}</span>
+                `;
+                rankContainer.appendChild(card);
+            });
+        }
+        renderRanking();
 
         // ========== eSF ==========
         const esfData = [
